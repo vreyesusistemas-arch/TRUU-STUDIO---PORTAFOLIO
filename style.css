@@ -1,0 +1,536 @@
+/* Importación de fuentes (Asegúrate de tener los archivos locales o links) */
+@font-face { font-family: 'Expose'; src: url('fonts/Expose-SemiBold.woff2'); font-weight: 600; }
+@font-face { font-family: 'Satoshi'; src: url('fonts/Satoshi-Regular.woff2'); font-weight: 400; }
+
+:root {
+    --rosa-pastel: #ffd1dc;
+    --blanco: #ffffff;
+    --negro: #000000;
+    --acento-rosa: #ff85a2;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--negro);
+    font-family: 'Satoshi', sans-serif;
+    color: var(--negro);
+    overflow-x: hidden;
+}
+
+/* Header */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Alineación vertical del logo y menú */
+    padding: 30px 50px;
+    z-index: 100;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    /* Clase que aplicaremos con JS */
+.header-hidden {
+    transform: translateY(-100%); /* Lo saca de la pantalla hacia arriba */
+    opacity: 0;                   /* Lo hace invisible */
+    pointer-events: none;         /* Evita que se pueda hacer clic accidentalmente */
+    transition: transform 0.5s ease, opacity 0.4s ease; /* Transición suave */
+}
+
+/* Estilo base del header para que sea compatible */
+#main-header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: transform 0.5s ease, opacity 0.4s ease;
+}
+}
+
+header .logo {
+    font-family: 'Expose', sans-serif;
+    font-size: 1.5rem;
+}
+
+.logo-img {
+    height: 145px;
+    width: auto;
+}
+
+header nav a {
+    text-decoration: none;
+    color: var(--negro);
+    margin-left: 30px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* Hero Section con Mesh Gradient */
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--rosa-pastel);
+    background-image: 
+        radial-gradient(at 0% 0%, var(--blanco) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, var(--blanco) 0px, transparent 50%),
+        radial-gradient(at 50% 0%, var(--rosa-pastel) 0px, transparent 50%);
+    position: relative;
+}
+
+.hero-content {
+    text-align: center;
+}
+
+.subtitle {
+    font-size: 1rem;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+.title {
+    font-family: 'Expose', sans-serif;
+    font-size: 5rem;
+    color: var(--negro);
+    text-transform: uppercase;
+}
+
+/* Sección de Proyectos */
+.projects-section {
+    padding: 100px 50px;
+    background-color: var(--negro);
+}
+
+.grid-projects {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.card {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background: #111;
+    border: 2px solid transparent;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: border 0.4s cubic-bezier(.68,-0.55,.27,1.55),
+                box-shadow 0.4s cubic-bezier(.68,-0.55,.27,1.55),
+                transform 0.3s cubic-bezier(.68,-0.55,.27,1.55);
+    cursor: pointer;
+}
+
+.card:hover {
+    border: 2.5px dashed var(--rosa-pastel);
+    box-shadow: 0 0 16px 2px #ff85a2, 0 0 32px 4px #ffd1dc66;
+    transform: scale(1.035);
+}
+
+/* Ajuste para centrar imágenes dentro de las cards */
+.card-image {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.6;
+    transition: opacity 0.4s ease;
+}
+
+.card:hover .card-image img {
+    opacity: 0.3;
+}
+
+.card-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.card:hover .card-overlay {
+    opacity: 1;
+}
+
+.card-overlay span {
+    font-family: 'Expose', sans-serif;
+    font-weight: 600;
+    color: var(--blanco);
+    font-size: 2rem;
+    text-transform: uppercase;
+}
+
+/* Info en lado izquierdo de las cards */
+.card-info {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.card-author {
+    font-family: 'Satoshi', sans-serif;
+    font-weight: 400;
+    color: var(--blanco);
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.card-brand {
+    font-family: 'Expose', sans-serif;
+    font-weight: 600;
+    color: var(--blanco);
+    font-size: 1rem;
+    text-transform: uppercase;
+}
+
+/* Autor y marca en la esquina superior izquierda */
+.author-brand {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+}
+.author-brand .card-author {
+    font-family: 'Satoshi', sans-serif;
+    font-weight: 400;
+    color: var(--blanco);
+    font-size: 1rem;
+    opacity: 0.8;
+}
+.author-brand .card-brand {
+    font-family: 'Expose', sans-serif;
+    font-weight: 600;
+    color: var(--blanco);
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Clase para ocultar el header al bajar */
+.header-hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-20px);
+}
+/* =============================================
+   NUEVA SECCIÓN: TÍTULO EN ZONA NEGRA 
+   ============================================= */
+
+/* Contenedor principal que agregamos al inicio de <main> */
+.main-title-container {
+    padding: 0 0 50px 0; /* Espaciado inferior para separar de las cards */
+    text-align: left;
+}
+
+/* Estilo para TRUU PORTAFOLIO */
+.main-title-text {
+    font-family: 'Expose', sans-serif;
+    font-weight: 600; /* Semi Bold */
+    color: var(--blanco);
+    font-size: 1.5rem; /* Tamaño pequeño y elegante */
+    text-transform: uppercase;
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+/* Estilo para Por Valeria Reyes */
+.main-subtitle-text {
+    font-family: 'Satoshi', sans-serif;
+    font-weight: 400; /* Regular */
+    color: var(--blanco);
+    font-size: 0.85rem; /* Más pequeño que el título */
+    opacity: 0.8; /* Un poco más sutil */
+    margin-top: 4px;
+    display: block;
+}
+
+/* Ajuste opcional: Si quieres que el texto esté más alineado con las cards,
+   puedes añadir este margen izquierdo si tu .projects-section no lo tiene */
+.main-title-container {
+    margin-left: 10px; 
+}
+/* Estilos para Páginas de Proyecto */
+.project-page {
+    background-color: #000 ;
+    color: #fff ;
+}
+
+.header-project {
+    background: rgba(0,0,0,0.9);
+}
+
+.logo-white {
+    height: 80px;
+    filter: invert(1); /* Convierte tu logo negro en blanco automáticamente */
+}
+
+.header-project nav a {
+    color: #fff ;
+}
+
+.project-layout {
+    display: grid;
+    grid-template-columns: 350px 1fr; /* Sidebar fija a la izquierda */
+    gap: 50px;
+    padding: 150px 50px;
+}
+
+.sidebar {
+    position: sticky;
+    top: 150px;
+    height: fit-content;
+}
+
+.project-title {
+    font-family: 'Expose', sans-serif;
+    font-size: 2.2rem;
+    margin-bottom: 15px;
+}
+
+.project-text {
+    font-family: 'Satoshi', sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    opacity: 0.7;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas para las 6 fotos */
+    gap: 20px;
+}
+
+.gallery-item {
+    background: #111;
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 16 / 9; /* Formato horizontal que pediste */
+    
+    /* CENTRADO DEL CONTENEDOR */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    /* AJUSTE DE IMAGEN: Esto la centra y recorta 
+       automáticamente para llenar el espacio */
+    object-fit: cover; 
+    object-position: center; /* Asegura que el centro de la foto sea lo visible */
+}
+
+.card-link {
+    text-decoration: none;
+}
+/* --- ESTILOS PÁGINA ABOUT ME --- */
+
+.about-page {
+    background-color: #000;
+    color: #fff;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+/* Logo escalable a 100px */
+.logo-white-about {
+    height: 80px;
+    width: auto;
+    filter: invert(1); /* Convierte el logo negro a blanco */
+    transition: transform 0.3s ease;
+}
+
+/* Layout de Perfil */
+.about-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 120px 50px 50px;
+}
+
+.profile-container {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 60px;
+    max-width: 1100px;
+    align-items: center;
+}
+
+.profile-image img {
+    width: 100%;
+    border-radius: 30px;
+    filter: grayscale(20%);
+}
+
+/* Tipografías */
+.about-title {
+    font-family: 'Expose', sans-serif;
+    font-size: 3.5rem;
+    margin-bottom: 5px;
+}
+
+.about-subtitle {
+    font-family: 'Satoshi', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #ffc3c3; /* Tu color rosa de acento */
+    margin-bottom: 25px;
+}
+
+.about-description {
+    font-family: 'Satoshi', sans-serif;
+    line-height: 1.8;
+    opacity: 0.8;
+    margin-bottom: 40px;
+}
+
+/* Botones con Efecto Neón Rosa y Rebote */
+.social-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.neon-btn {
+    text-decoration: none;
+    color: #fff;
+    font-family: 'Satoshi', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 12px 25px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    background: transparent;
+    /* --- Tags de Alineación Interna --- */
+    display: inline-flex;    /* Convierte el botón en un contenedor flexible */
+    align-items: center;     /* Centra el texto verticalmente */
+    justify-content: center; /* Centra el texto horizontalmente */
+    text-align: center;
+    
+    /* --- Tags de Estructura --- */
+    min-width: 180px;        /* Mantiene un tamaño base para que no se vean desiguales */
+    height: 55px;            /* Define una altura fija para asegurar el centro visual */
+    padding: 0 30px;         /* Espacio interno a los lados */
+    
+    /* Tu estilo previo */
+    border-radius: 50px;
+    text-decoration: none;
+    font-family: 'Satoshi', sans-serif;
+    font-weight: 600;
+}
+
+
+/* Hover: Borde punteado, neón rosa y rebote */
+/* Hover: Borde punteado, neón ROSA PASTEL y rebote */
+.neon-btn:hover {
+    /* Color rosa pastel suave */
+    border: 1.5px dashed #ffd1dc; 
+    
+    /* Difuminado neón rosa pastel (ajustado con opacidad suave) */
+    box-shadow: 0 0 20px rgba(255, 209, 220, 0.6); 
+    
+    /* Animación de rebote */
+    transform: translateY(-5px) scale(1.02); 
+    
+    /* El texto también cambia a rosa pastel */
+    color: #ffd1dc;
+}
+
+/* Si quieres que el botón de PDF también sea rosa pastel al inicio */
+.pdf-btn {
+    border: 1px solid #ffd1dc;
+    color: #ffd1dc;
+}
+
+/* Ajustes para Móvil */
+@media (max-width: 850px) {
+    .profile-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    .social-links {
+        justify-content: center;
+    display: flex;           /* Alinea los botones en fila */
+    flex-wrap: wrap;         /* Permite que bajen si no hay espacio en móvil */
+    gap: 15px;               /* Espacio exacto entre botones */
+    justify-content: flex-start; /* Alinea la fila a la izquierda */
+    margin-top: 30px;
+}
+    }
+    .about-title {
+        font-size: 2.5rem;
+    }
+
+/* --- ANIMACIÓN Y BOTONES ABOUT --- */
+
+.neon-btn {
+    text-decoration: none;
+    color: #fff;
+    font-family: 'Satoshi', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 12px 25px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    display: inline-block;
+    background: transparent;
+    /* Preparación para la animación suave */
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+}
+
+.neon-btn:hover {
+    /* Color Rosa Pastel */
+    border: 1.5px dashed #ffd1dc; 
+    color: #ffd1dc;
+    
+    /* Efecto Neón Difuminado */
+    box-shadow: 0 0 20px rgba(255, 209, 220, 0.5);
+    
+    /* ANIMACIÓN DE REBOTE:
+       Se desplaza hacia arriba y crece un poco con efecto elástico */
+    transform: translateY(-8px) scale(1.05);
+}
+
+/* Estilo específico para el botón PDF */
+.pdf-btn {
+    border: 1px solid #ffd1dc;
+    color: #ffd1dc;
+    margin-top: 10px;
+}
+
+/* Asegurar que el header en About tenga letras blancas */
+.header-about nav a {
+    color: #fff ;
+    text-decoration: none;
+    margin-left: 30px;
+    font-family: 'Satoshi', sans-serif;
+    font-weight: 600;
+}
